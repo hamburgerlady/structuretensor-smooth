@@ -20,10 +20,13 @@ vdx = vf*s1^2;
 j11 = J_xx_sm;
 j12 = J_xy_sm;
 j22 = J_yy_sm;
-lam2 = j11/2 + j22/2 + (j11.^2 - 2*j11.*j22 + 4*j12.^2 + j22.^2).^(1/2)/2;
-lam1 = j11/2 + j22/2 - (j11.^2 - 2*j11.*j22 + 4*j12.^2 + j22.^2).^(1/2)/2;
 
-E1_1 = (j11/2 + j22/2 - (j11.^2 - 2*j11.*j22 + 4*j12.^2 + j22.^2).^(1/2)/2)./j12 - j22./j12;
+jdisc = abs(j11.^2 - 2*j11.*j22 + 4*j12.^2 + j22.^2).^(1/2)/2;
+lille = 1e-9;
+lam2 = j11/2 + j22/2 + jdisc;
+lam1 = j11/2 + j22/2 - jdisc;
+
+E1_1 = (j11/2 + j22/2 - jdisc)./(lille+j12) - j22./(lille+j12);
 E1_2 = 1;
 
 sum1 = sqrt(E1_1.^2+E1_2.^2);
@@ -45,7 +48,7 @@ lambdamin = lam1e_m;
 dfac = sqrt(lam1e_v)/lambdamin;
 d = dfac/lambdamin;
 
-
+%keyboard
 imout = structure_smooth_sum(im,lam1,lam2,A,B,sigmamin,sigmamax,d,lambdamin,ksfactor);
 
 
